@@ -66,4 +66,15 @@ func main() {
 			}
 		}
 	}
+
+	//
+	for counter := 10; counter >= 0; counter-- {
+		if rand.Intn(100) == 0 {
+			fmt.Println("Break o_o")
+			break
+		} else {
+			fmt.Println(counter)
+			time.Sleep(time.Second)
+		}
+	}
 }
