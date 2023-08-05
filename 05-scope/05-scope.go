@@ -5,6 +5,8 @@ import (
 	"math/rand"
 )
 
+var era = "AD"
+
 func main() {
 	var count = 0
 	for count < 10 { // scope start
@@ -51,4 +53,30 @@ func main() {
 		fmt.Println("num > 1")
 	}
 	// fmt.Println(num) // out of scope
+
+	//
+	for i := 0; i < 10; i++ {
+		generateDate()
+	}
+}
+
+func generateDate() {
+	year := rand.Intn(2023) + 1
+	month := rand.Intn(12) + 1
+	daysInMonth := 31
+
+	switch month {
+	case 2:
+		isLeap := (year%4 == 0 && year%100 != 0) || year%400 == 0
+		if isLeap {
+			daysInMonth = 29
+		} else {
+			daysInMonth = 28
+		}
+	case 4, 6, 9, 1:
+		daysInMonth = 30
+	}
+
+	day := rand.Intn(daysInMonth) + 1
+	fmt.Println(era, year, month, day)
 }
