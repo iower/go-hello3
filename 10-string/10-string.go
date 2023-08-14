@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"unicode/utf8"
+)
 
 func main() {
 	peace1 := "peace"
@@ -42,4 +45,101 @@ func main() {
 	fmt.Printf("%v %v %v %v\n", grade, grade2, grade3, star)
 	fmt.Printf("%c %c %c %c\n", grade, grade2, grade3, star)
 
+	acute := 'é'
+	fmt.Printf("%c %[1]v\n", acute)
+
+	//
+	message := "shalom"
+	message = "salām"
+	fmt.Println(message)
+	c := message[5]
+	fmt.Printf("%c\n", c)
+
+	// strings are immutable
+	// message[5] = 't'
+
+	fmt.Println(len(message))
+	for i := 0; i < len(message); i++ {
+		fmt.Printf("%c\n", message[i])
+	}
+	fmt.Println("---")
+
+	// Caesar chipher
+	char := 'z'
+	fmt.Printf("%c -> ", char)
+	char += 3
+	if char > 'z' {
+		char -= 26
+	}
+	fmt.Printf("%c \n", char)
+
+	//
+	char2 := 'g'
+	char2 = char2 - 'a' + 'A'
+	fmt.Printf("%c \n", char2)
+
+	// ROT13
+	msg := "uv vagreangvbany fcnpr fgngvba"
+	for i := 0; i < len(msg); i++ {
+		c := msg[i]
+		if c >= 'a' && c <= 'z' {
+			c += 13
+			if c > 'z' {
+				c -= 26
+			}
+		}
+		fmt.Printf("%c", c)
+	}
+	fmt.Println()
+
+	// utf-8
+	question := "¿Cómo estás?"
+	fmt.Println(len(question), "bytes")
+	fmt.Println(utf8.RuneCountInString(question), "runes")
+
+	firstChar, size := utf8.DecodeRuneInString(question)
+	fmt.Printf("First rune: %c - %v bytes \n", firstChar, size)
+
+	for i, c := range question {
+		fmt.Printf("%v %c\n", i, c)
+	}
+
+	// decode Caesar chipher
+	encoded := "L fdph, L vdz, L frqtxhuhg"
+	for i := 0; i < len(encoded); i++ {
+		char := encoded[i]
+		if char >= 'a' && char <= 'z' {
+			char -= 3
+			if char < 'a' {
+				char += 26
+			}
+		} else if char >= 'A' && char <= 'Z' {
+			char -= 3
+			if char < 'A' {
+				char += 26
+			}
+		}
+
+		fmt.Printf("%c", char)
+	}
+	fmt.Println()
+
+	//
+	mes := "Hola Estación Espacial Internacional"
+
+	for _, c := range mes {
+		if c >= 'a' && c <= 'z' {
+			c = c + 13
+			if c > 'z' {
+				c = c - 26
+			}
+		} else if c >= 'A' && c <= 'Z' {
+			c = c + 13
+			if c > 'Z' {
+				c = c - 26
+			}
+		}
+		fmt.Printf("%c", c)
+	}
+	fmt.Println()
 }
