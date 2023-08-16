@@ -61,4 +61,64 @@ func main() {
 	countdown2 := 10
 	str2 := "Launch in T minus " + strconv.Itoa(countdown2) + " seconds"
 	fmt.Println(str2)
+
+	// ASCII to integer
+	countdown3, err := strconv.Atoi("10")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(countdown3)
+
+	// Sprintf
+	str3 := fmt.Sprintf("Launch in T minus %v seconds", countdown2)
+	fmt.Println(str3)
+
+	// static typing
+	var staticInt = 10
+	// staticInt = 10.1 // error
+	// staticInt = fmt.Sprintf("%v seconds", staticInt) // error
+	fmt.Println(staticInt)
+
+	// boolean to string
+	launch := false
+	launchText := fmt.Sprintf("%v", launch)
+	fmt.Println("Ready for launch:", launchText)
+
+	var yesNo string
+	if launch {
+		yesNo = "yes"
+	} else {
+		yesNo = "no"
+	}
+	fmt.Println("Ready for launch:", yesNo)
+
+	// string(false) // error
+
+	// string to boolean
+	launch2 := yesNo == "yes"
+	fmt.Println("Ready for launch:", launch2)
+
+	// boolean to int
+	boolVal := false
+	var intVal int
+	if boolVal {
+		intVal = 1
+	} else {
+		intVal = 0
+	}
+	fmt.Println(intVal)
+
+	//
+	str := "true"
+	var boolFromStr bool
+
+	switch str {
+	case "true", "yes", "1":
+		boolFromStr = true
+	case "false", "no", "0":
+		boolFromStr = false
+	default:
+		panic("Unknown str")
+	}
+	fmt.Println(boolFromStr)
 }
