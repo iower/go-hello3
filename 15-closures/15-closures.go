@@ -27,6 +27,12 @@ func measureTemperature(samples int, sensor func() kelvin) {
 	}
 }
 
+func calibrate(s sensor, offset kelvin) sensor {
+	return func() kelvin {
+		return s() + offset
+	}
+}
+
 func main() {
 	// first-class func
 	sensor := fakeSensor
@@ -41,7 +47,31 @@ func main() {
 	//
 	measureTemperature(3, fakeSensor)
 
+	// anonymous functions
 	f()
+
+	f2 := func(message string) {
+		fmt.Println(message)
+	}
+	f2("Anon func 2")
+
+	// declare and call
+	func() {
+		fmt.Println("Anon func 3")
+	}()
+
+	sensor3 := calibrate(realSensor, 5)
+	fmt.Println(sensor3())
+
+	// closure
+	var k kelvin = 294.0
+
+	getValue := func() kelvin {
+		return k
+	}
+	fmt.Println(getValue())
+	k++
+	fmt.Println(getValue())
 }
 
 /*
