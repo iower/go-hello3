@@ -40,6 +40,8 @@ func main() {
 
 	//
 	measureTemperature(3, fakeSensor)
+
+	f()
 }
 
 /*
@@ -49,3 +51,7 @@ func drawTable(rows int, getRow func(row int) (string, string))
 type getRowFn func(row int) (string, string)
 func drawTable(rows int, getRow getRowFn)
 */
+
+var f = func() {
+	fmt.Println("Anonymous function")
+}
