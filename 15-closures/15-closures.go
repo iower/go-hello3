@@ -60,8 +60,15 @@ func main() {
 		fmt.Println("Anon func 3")
 	}()
 
-	sensor3 := calibrate(realSensor, 5)
+	var offset kelvin = 5
+	sensor3 := calibrate(realSensor, offset)
+	offset = 6
 	fmt.Println(sensor3())
+
+	sensor4 := calibrate(fakeSensor, 1)
+	fmt.Println(sensor4())
+	fmt.Println(sensor4())
+	fmt.Println(sensor4())
 
 	// closure
 	var k kelvin = 294.0
