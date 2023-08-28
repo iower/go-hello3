@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -54,6 +55,16 @@ func main() {
 	slice4 := []string{" Aa ", " Bb   ", "\nCc\n"}
 	trim(slice4)
 	fmt.Println(strings.Join(slice4, ""))
+
+	// type from slice + method
+	// type StringSlicee []string
+	// func (p StringSlicee) Sort()
+	stringsForSort := []string{"b", "a", "d", "c"}
+	sort.StringSlice(stringsForSort).Sort()
+
+	stringsForSort2 := []string{"b", "a", "d", "c"}
+	sort.Strings(stringsForSort2)
+	fmt.Println(stringsForSort, stringsForSort2)
 }
 
 func trim(strs []string) { // any slice length
