@@ -65,10 +65,22 @@ func main() {
 	stringsForSort2 := []string{"b", "a", "d", "c"}
 	sort.Strings(stringsForSort2)
 	fmt.Println(stringsForSort, stringsForSort2)
+
+	stringForNew := []string{"a", "b", "c"}
+	StringSlice(stringForNew).setNew()
+	fmt.Println(stringForNew)
 }
 
 func trim(strs []string) { // any slice length
 	for i := range strs {
 		strs[i] = strings.TrimSpace(strs[i])
+	}
+}
+
+type StringSlice []string
+
+func (ss StringSlice) setNew() {
+	for i := range ss {
+		ss[i] += "New "
 	}
 }
