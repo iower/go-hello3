@@ -5,12 +5,15 @@ import "fmt"
 func main() {
 	// append to slice
 	strings := []string{"a", "b", "c"}
-	strings = append(strings, "d")
+	fmt.Println(strings, len(strings), cap(strings))
 
-	fmt.Println(strings)
+	strings = append(strings, "d")
+	fmt.Println(strings, len(strings), cap(strings))
+
 	strings = append(strings, "e", "f")
-	fmt.Println(strings)
+	fmt.Println(strings, len(strings), cap(strings))
 
 	more := []string{"g", "h"}
 	strings = append(strings, more...)
+	fmt.Println(strings, len(strings), cap(strings))
 }
