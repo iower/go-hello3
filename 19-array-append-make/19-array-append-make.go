@@ -44,8 +44,47 @@ func main() {
 	numsSlice2 := append(numsSlice, "qq2")
 	dump(numsSlice2)
 	dump(numsSlice)
+
+	// make slice & set capacity
+	makeStrings := make([]string, 0, 10)
+	dump(makeStrings)
+	makeStrings = append(makeStrings, "11", "22", "33", "44", "55")
+	dump(makeStrings)
+
+	makeStrings2 := make([]string, 10)
+	dump(makeStrings2)
+	makeStrings2 = append(makeStrings2, "")
+	dump(makeStrings2)
+
+	// few arguments -> slice
+	dump(prefixStrings("prefixed", "111", "222", "333"))
+	dump(prefixStrings("prefixed2", makeStrings...))
+
+	for i := 0; i < 5; i++ {
+		makeStrings2 = append(makeStrings2, fmt.Sprint(i))
+	}
+	dump(makeStrings2)
+
+	s := []string{}
+	lastCap := cap(s)
+
+	for i := 0; i < 10000; i++ {
+		s = append(s, "An element")
+		if cap(s) != lastCap {
+			fmt.Println(cap(s))
+			lastCap = cap(s)
+		}
+	}
 }
 
 func dump(slice []string) {
 	fmt.Printf("%v len: %v, cap: %v \n", slice, len(slice), cap(slice))
+}
+
+func prefixStrings(prefix string, strings ...string) []string {
+	result := make([]string, len(strings))
+	for i := range strings {
+		result[i] = prefix + " " + strings[i]
+	}
+	return result
 }
