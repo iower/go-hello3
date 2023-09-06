@@ -37,4 +37,20 @@ func main() {
 		fmt.Println("Unknown", unknownT, found)
 	}
 
+	// maps are not copied when assigned
+	temp2 := temp
+	temp2["Moon"] = -21
+	fmt.Println(temp["Moon"] == temp2["Moon"])
+
+	// delete
+	delete(temp, "Moon")
+	fmt.Println(temp, temp2)
+
+	// make map
+	temp0 := make(map[string]int, 2)
+	fmt.Println(temp0, len(temp0)) // 0
+	temp0["a"] = 1
+	temp0["b"] = 2
+	temp0["c"] = 3
+	fmt.Println(temp0)
 }
