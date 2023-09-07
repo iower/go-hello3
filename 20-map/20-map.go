@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func main() {
 	// map[key_type]value_type
@@ -53,4 +56,27 @@ func main() {
 	temp0["b"] = 2
 	temp0["c"] = 3
 	fmt.Println(temp0)
+
+	// count by map
+	chars := []string{"a", "b", "c", "a", "b", "a"}
+	freqs := make(map[string]int)
+	for _, char := range chars {
+		freqs[char]++
+	}
+	for key, val := range freqs {
+		fmt.Printf("%v - %d times\n", key, val)
+	}
+
+	// grouping
+	temps := []float64{
+		-28.0, 32.0, -31.0, -29.0, -23.0, -29.0, -28.0, -33.0,
+	}
+	groups := make(map[float64][]float64)
+	for _, t := range temps {
+		g := math.Trunc(t/10) * 10
+		groups[g] = append(groups[g], t)
+	}
+	for group, groupTemps := range groups {
+		fmt.Printf("%v: %v\n", group, groupTemps)
+	}
 }
