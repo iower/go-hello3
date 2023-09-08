@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"sort"
 )
 
 func main() {
@@ -79,4 +80,20 @@ func main() {
 	for group, groupTemps := range groups {
 		fmt.Printf("%v: %v\n", group, groupTemps)
 	}
+
+	// Sets by maps
+	set := make(map[float64]bool)
+	for _, t := range temps {
+		set[t] = true
+	}
+	if set[-28.0] {
+		fmt.Println("is in the set")
+	}
+	fmt.Println(set)
+	unique := make([]float64, 0, len(set))
+	for t := range set {
+		unique = append(unique, t)
+	}
+	sort.Float64s(unique)
+	fmt.Println(unique)
 }
