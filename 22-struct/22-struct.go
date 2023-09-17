@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 func main() {
 	// declare struct
@@ -17,8 +20,8 @@ func main() {
 
 	// reuse structs with types
 	type location struct {
-		lat  float64
-		long float64
+		lat  float64 `json:"lat"`
+		long float64 `json:"long"`
 	}
 
 	var spirit location
@@ -44,4 +47,32 @@ func main() {
 	// shorted declaraion
 	spirit2 := loc{1.0, 2.0}
 	fmt.Println(spirit2)
+
+	// format field name
+	fmt.Printf("%v\n", spirit2)
+	fmt.Printf("%+ v\n", spirit2)
+
+	// copy structs: by value
+	spirit3 := spirit2
+	spirit3.lat--
+	fmt.Println(spirit2, spirit3)
+
+	// struct slices
+	locations := []location{
+		{lat: 1, long: 2},
+		{lat: 3, long: 4},
+		{lat: 5, long: 6},
+	}
+	fmt.Println(locations)
+
+	// struct -> json
+	type loc2 struct {
+		Lat, Long float64 // uppercase
+	}
+	loc2item := loc2{1, 2}
+	bytes, err := json.Marshal(loc2item)
+	if err == nil {
+		fmt.Println(bytes)
+		fmt.Println(string(bytes))
+	}
 }
