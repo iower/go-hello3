@@ -75,4 +75,16 @@ func main() {
 		fmt.Println(bytes)
 		fmt.Println(string(bytes))
 	}
+
+	// tags
+	type loc3 struct {
+		Lat  float64 `json:"lat"`
+		Long float64 `json:"lng"`
+	}
+	loc3item := loc3{3, 4}
+	bytes2, err2 := json.Marshal(loc3item)
+	if err2 == nil {
+		fmt.Println(bytes2)
+		fmt.Println(string(bytes2))
+	}
 }
