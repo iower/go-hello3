@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type coordinate struct {
 	d, m, s float64
@@ -27,6 +30,21 @@ func newLocation(lat, long coordinate) location {
 	return location{lat.decimal(), long.decimal()}
 }
 
+type world struct {
+	radius float64
+}
+
+func (w world) distance(p1, p2 location) float64 {
+	s1, c1 := math.Sincos(rad(p1.lat))
+	s2, c2 := math.Sincos(rad(p2.lat))
+	clong := math.Cos(rad(p1.long - p2.long))
+	return w.radius * math.Acos(s1*s2+c1*c2*clong)
+}
+
+func rad(deg float64) float64 {
+	return deg * math.Pi / 180
+}
+
 func main() {
 	lat := coordinate{4, 35, 22.2, 'S'}
 	long := coordinate{137, 26, 30.12, 'E'}
@@ -35,6 +53,12 @@ func main() {
 	curiosity := location{lat.decimal(), long.decimal()}
 	fmt.Println(curiosity)
 
-	curiosity2 := newLocation(coordinate{4, 35, 22.2, 'S'}, coordinate{137, 26, 30.12, 'E'})
+	curiosity2 := newLocation(coordinate{5, 35, 22.2, 'S'}, coordinate{137, 26, 30.12, 'E'})
 	fmt.Println(curiosity2)
+
+	// classes
+	var mars = world{radius: 3389.5}
+	fmt.Println(mars)
+	dist := mars.distance(curiosity, curiosity2)
+	fmt.Printf("%.2f km", dist)
 }
