@@ -60,5 +60,17 @@ func main() {
 	var mars = world{radius: 3389.5}
 	fmt.Println(mars)
 	dist := mars.distance(curiosity, curiosity2)
-	fmt.Printf("%.2f km", dist)
+	fmt.Printf("%.2f km \n", dist)
+
+	//
+	spirit := newLocation(coordinate{14, 34, 6.2, 'S'}, coordinate{175, 28, 21.5, 'E'})
+	opportunity := newLocation(coordinate{1, 56, 46.3, 'S'}, coordinate{354, 28, 24.2, 'E'})
+	dist2 := mars.distance(spirit, opportunity)
+	fmt.Println(dist2)
+
+	//
+	earth := world{radius: 6371}
+	london := newLocation(coordinate{51, 30, 0, 'N'}, coordinate{0, 8, 0, 'W'})
+	paris := newLocation(coordinate{48, 51, 0, 'N'}, coordinate{2, 21, 0, 'E'})
+	fmt.Println(earth.distance(london, paris))
 }
