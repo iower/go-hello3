@@ -34,6 +34,23 @@ func (r report) averageT() celsius {
 	return r.temperature.average()
 }
 
+// method forwarding
+type report2 struct {
+	sol
+	temperature
+	location
+}
+
+type sol int
+
+func (s sol) days(s2 sol) int {
+	days := int(s2 - s)
+	if days < 0 {
+		days = -days
+	}
+	return days
+}
+
 func main() {
 	bradbury := location{-4.5895, 137.4417}
 	t := temperature{high: -1.0, low: -78.0}
@@ -46,4 +63,7 @@ func main() {
 	fmt.Println("Average t: ", report.averageT())
 
 	// method forwarding
+	report2 := report2{sol: 15, temperature: t, location: bradbury}
+	fmt.Println("Forwarded method", report2.average(), report2.days(10))
+	fmt.Println("Forwarded field", report2.high)
 }
