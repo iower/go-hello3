@@ -34,6 +34,10 @@ func (r report) averageT() celsius {
 	return r.temperature.average()
 }
 
+func (l location) days(l2 location) int {
+	return 5
+}
+
 // method forwarding
 type report2 struct {
 	sol
@@ -49,6 +53,17 @@ func (s sol) days(s2 sol) int {
 		days = -days
 	}
 	return days
+}
+
+// fix collision
+func (r report2) days(s2 sol) int {
+	return r.sol.days(s2)
+}
+
+type gps struct {
+	current location
+	target  location
+	world   string
 }
 
 func main() {
