@@ -1,11 +1,48 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
+
+var t interface {
+	talk() string
+}
+
+//
+
+type martian struct{}
+
+func (m martian) talk() string {
+	return "nack nack"
+}
+
+type laser int
+
+func (l laser) talk() string {
+	return strings.Repeat("pew ", int(l))
+}
+
+// -er rule
+
+type talker interface {
+	talk() string
+}
+
+func shout(t talker) {
+	louder := strings.ToUpper(t.talk())
+	fmt.Println(louder)
+}
 
 func main() {
-	var t interface {
-		talk() string
-	}
-
 	fmt.Println(t)
+
+	t = martian{}
+	fmt.Println(t.talk())
+
+	t = laser(3)
+	fmt.Println(t.talk())
+
+	shout(martian{})
+	shout(laser(2))
 }
