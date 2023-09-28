@@ -69,6 +69,44 @@ func (s sol) Hour() int {
 	return 0
 }
 
+// standart interfaces
+type str fmt.Stringer
+
+/*
+	// in fmt
+	type Stringer interface {
+		String() string
+	}
+*/
+
+// io.Reader, io.Writer, json.Marshaler
+
+type location struct {
+	lat, long float64
+}
+
+func (l location) String() string {
+	return fmt.Sprintf("%v, %v", l.lat, l.long)
+}
+
+type coordinate struct {
+	d, m, s float64
+	h       rune
+}
+
+func (c coordinate) String() string {
+	return fmt.Sprintf("%v°%v'%v\"%v", c.d, c.m, c.s, c.h)
+}
+
+type locationC struct {
+	name      string
+	lat, long coordinate
+}
+
+func (l locationC) String() string {
+	return fmt.Sprintf("%v is at %v, %v", l.name, l.lat.String(), l.long.String())
+}
+
 func main() {
 	fmt.Println(t)
 
@@ -97,4 +135,16 @@ func main() {
 
 	ss := sol(1422)
 	fmt.Printf("%.1f Happy birthday\n", stardate(ss))
+
+	//
+	curiosity := location{-4.5895, 137.4417}
+	fmt.Println(curiosity)
+
+	//
+	loc := locationC{
+		name: "Elysium Planitia",
+		lat:  coordinate{4, 30, 0.0, 'N'},
+		long: coordinate{135, 54, 0.0, 'E'},
+	}
+	fmt.Println(loc)
 }
