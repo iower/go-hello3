@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -98,6 +99,35 @@ func (c coordinate) String() string {
 	return fmt.Sprintf("%v°%v'%v\"%v", c.d, c.m, c.s, c.h)
 }
 
+func (c coordinate) decimal() float64 {
+	sign := 1.0
+	switch c.h {
+	case 'S', 'W', 's', 'w':
+		{
+			sign = -1
+		}
+	}
+	return sign * (c.d + c.m/60 + c.s/3600)
+}
+
+func (c coordinate) MarshalJSON() ([]byte, error) {
+	return json.Marshal(struct {
+		Decimal    float64 `json:"decimal"`
+		Dms        string  `json:"dms"`
+		Degrees    float64 `json:"degrees"`
+		Minutes    float64 `json:"minutes"`
+		Seconds    float64 `json:"seconds"`
+		Hemisphere rune    `json:"hemisphere"`
+	}{
+		Decimal:    c.decimal(),
+		Dms:        c.String(),
+		Degrees:    c.d,
+		Minutes:    c.m,
+		Seconds:    c.s,
+		Hemisphere: c.h,
+	})
+}
+
 type locationC struct {
 	name      string
 	lat, long coordinate
@@ -147,4 +177,8 @@ func main() {
 		long: coordinate{135, 54, 0.0, 'E'},
 	}
 	fmt.Println(loc)
+
+	crd := coordinate{4, 30, 0.0, 'N'}
+	bytes, err := json.Marshal(crd)
+	fmt.Println(err, string(bytes))
 }
