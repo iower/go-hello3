@@ -65,4 +65,22 @@ func main() {
 	fmt.Println(newMajor, &newMajor, testEquality, &testEquality)
 	fmt.Println(newMajor == testEquality)
 	fmt.Println(&newMajor == &testEquality)
+
+	// pointers and structs
+	type person struct {
+		name, superpower string
+		age              int
+	}
+
+	timmy := &person{
+		name: "Tim",
+		age:  20,
+	}
+	fmt.Println(timmy)
+	// shorter than
+	// (*timmy).superpower = "flying"
+	timmy.superpower = "flying"
+	fmt.Println(timmy)
+	fmt.Printf("%+v\n", timmy)
+	fmt.Println(timmy.superpower, (*timmy).superpower)
 }
