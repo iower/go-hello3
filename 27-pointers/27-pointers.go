@@ -30,4 +30,39 @@ func main() {
 
 	home = &canada
 	fmt.Println(*home)
+
+	//
+
+	var admin *string
+	alice := "Alice"
+	admin = &alice
+	fmt.Println(*admin)
+
+	bob := "Bob"
+	admin = &bob
+	fmt.Println(*admin)
+
+	bob = "Bob2"
+	fmt.Println(*admin)
+
+	*admin = "Bob3"
+	fmt.Println(*admin, bob)
+
+	major := admin
+	*major = "Bob4"
+	fmt.Println(*admin, *major, admin == major)
+
+	newMajor := "newMajor"
+	major = &newMajor
+	fmt.Println(*admin, *major, admin == major)
+
+	//
+	strClone := *major
+	*major = "newMajor2"
+	fmt.Println(strClone, *major)
+
+	testEquality := "newMajor2"
+	fmt.Println(newMajor, &newMajor, testEquality, &testEquality)
+	fmt.Println(newMajor == testEquality)
+	fmt.Println(&newMajor == &testEquality)
 }
