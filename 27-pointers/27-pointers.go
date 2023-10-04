@@ -2,6 +2,16 @@ package main
 
 import "fmt"
 
+type person struct {
+	name, superpower string
+	age              int
+}
+
+// pointers as params
+func birthday(p *person) {
+	p.age++
+}
+
 func main() {
 	answer := 42
 	fmt.Println(&answer)
@@ -67,10 +77,6 @@ func main() {
 	fmt.Println(&newMajor == &testEquality)
 
 	// pointers and structs
-	type person struct {
-		name, superpower string
-		age              int
-	}
 
 	timmy := &person{
 		name: "Tim",
@@ -83,4 +89,20 @@ func main() {
 	fmt.Println(timmy)
 	fmt.Printf("%+v\n", timmy)
 	fmt.Println(timmy.superpower, (*timmy).superpower)
+
+	// pointers and arrays
+	superpowers := &[3]string{"flight", "invisibility", "super strength"}
+
+	fmt.Println(superpowers[0], (*superpowers)[0])
+	fmt.Println(superpowers[1:2], (*superpowers)[1:2])
+
+	// pointers as params
+	rebecca := person{
+		name:       "Rebecca",
+		superpower: "imagination",
+		age:        41,
+	}
+	fmt.Printf("%+v\n", rebecca)
+	birthday(&rebecca)
+	fmt.Printf("%+v\n", rebecca)
 }
