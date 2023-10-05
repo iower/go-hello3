@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type person struct {
 	name, superpower string
@@ -10,6 +12,26 @@ type person struct {
 // pointers as params
 func birthday(p *person) {
 	p.age++
+}
+
+func (p *person) birthday() {
+	p.age++
+}
+
+type stats struct {
+	level             int
+	endurance, health int
+}
+
+func levelUp(s *stats) {
+	s.level++
+	s.endurance = 42 + (14 * s.level)
+	s.health = 5 * s.endurance
+}
+
+type character struct {
+	name  string
+	stats stats
 }
 
 func main() {
@@ -105,4 +127,18 @@ func main() {
 	fmt.Printf("%+v\n", rebecca)
 	birthday(&rebecca)
 	fmt.Printf("%+v\n", rebecca)
+	rebecca.birthday()
+	fmt.Printf("%+v\n", rebecca)
+
+	terry := &person{
+		name: "Terry",
+		age:  15,
+	}
+	terry.birthday()
+	fmt.Printf("%+v\n", terry)
+
+	// internal pointers
+	player := character{name: "Matt"}
+	levelUp(&player.stats)
+	fmt.Printf("%+v\n", player)
 }
