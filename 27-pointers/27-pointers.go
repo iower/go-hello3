@@ -34,6 +34,14 @@ type character struct {
 	stats stats
 }
 
+func reset(board *[8][8]rune) {
+	board[0][0] = 'r'
+}
+
+func reclassify(planets *[]string) {
+	*planets = (*planets)[0:8]
+}
+
 func main() {
 	answer := 42
 	fmt.Println(&answer)
@@ -141,4 +149,21 @@ func main() {
 	player := character{name: "Matt"}
 	levelUp(&player.stats)
 	fmt.Printf("%+v\n", player)
+
+	// pointers and arrays
+	var board [8][8]rune
+	fmt.Printf("= %c \n", board[0][0])
+	reset(&board)
+	fmt.Printf("= %c \n", board[0][0])
+
+	// maps is pointers
+	// wrong:
+	// func demolish(planets *map[string]string)
+
+	// slices is pointers structure (pointer+cap+len)
+
+	//
+	planets := []string{"1", "2", "3", "4", "5", "6", "7", "8"}
+	reclassify(&planets)
+	fmt.Println(planets)
 }
