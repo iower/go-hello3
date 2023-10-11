@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 type person struct {
@@ -40,6 +41,48 @@ func reset(board *[8][8]rune) {
 
 func reclassify(planets *[]string) {
 	*planets = (*planets)[0:8]
+}
+
+// pointers and interfaces
+type talker interface {
+	talk() string
+}
+
+func shout(t talker) {
+	louder := strings.ToUpper(t.talk())
+	fmt.Println(louder)
+}
+
+type martian struct{}
+
+func (m martian) talk() string {
+	return "nack nack"
+}
+
+type laser int
+
+func (l *laser) talk() string {
+	return strings.Repeat("pew ", int(*l))
+}
+
+type turtle struct {
+	x, y int
+}
+
+func (t *turtle) up() {
+	t.x++
+}
+func (t *turtle) down() {
+	t.x--
+}
+func (t *turtle) left() {
+	t.y--
+}
+func (t *turtle) right() {
+	t.y++
+}
+func (t turtle) where() {
+	fmt.Printf("turtle (%v, %v)\n", t.x, t.y)
 }
 
 func main() {
@@ -166,4 +209,23 @@ func main() {
 	planets := []string{"1", "2", "3", "4", "5", "6", "7", "8"}
 	reclassify(&planets)
 	fmt.Println(planets)
+
+	// pointers and interfaces
+	shout(martian{})
+	shout(&martian{}) // pointers have the same interface
+
+	pew := laser(2)
+	shout(&pew)
+	// shout(pew) // wrong
+
+	t := turtle{0, 0}
+	t.where()
+	t.up()
+	t.where()
+	t.right()
+	t.where()
+	t.down()
+	t.where()
+	t.left()
+	t.where()
 }
