@@ -2,6 +2,21 @@ package main
 
 import "fmt"
 
+type person struct {
+	age int
+}
+
+func (p *person) birthday() {
+	p.age++
+}
+
+func (p *person) birthdayImproved() {
+	if p == nil {
+		return
+	}
+	p.age++
+}
+
 func main() {
 	var i int
 	fmt.Println(i)
@@ -22,4 +37,12 @@ func main() {
 	if nowhere != nil {
 		fmt.Println(*nowhere)
 	}
+
+	var nobody *person
+	fmt.Println(nobody)
+	//	nobody.birthday() // error: nil pointer dereference
+	fmt.Println(nobody)
+	nobody.birthdayImproved()
+	fmt.Println(nobody)
+	fmt.Println(nobody.age) // error: nil pointer dereference
 }
