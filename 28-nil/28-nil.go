@@ -44,5 +44,11 @@ func main() {
 	fmt.Println(nobody)
 	nobody.birthdayImproved()
 	fmt.Println(nobody)
-	fmt.Println(nobody.age) // error: nil pointer dereference
+	// fmt.Println(nobody.age) // error: nil pointer dereference
+
+	// funcs are nil by default
+	var fn func(a, b int) int
+	fmt.Println(fn == nil)
+	// fn(1, 2) // error: nil pointer dereference
+
 }
