@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 type person struct {
 	age int
@@ -15,6 +18,24 @@ func (p *person) birthdayImproved() {
 		return
 	}
 	p.age++
+}
+
+func sortStrings(s []string, less func(i, j int) bool) {
+	if less == nil {
+		less = func(i, j int) bool {
+			return s[i] < s[j]
+		}
+	}
+	sort.Slice(s, less)
+}
+
+func sortStringsByLen(s []string, less func(i, j int) bool) {
+	if less == nil {
+		less = func(i, j int) bool {
+			return len(s[i]) < len(s[j])
+		}
+	}
+	sort.Slice(s, less)
 }
 
 func main() {
@@ -51,4 +72,9 @@ func main() {
 	fmt.Println(fn == nil)
 	// fn(1, 2) // error: nil pointer dereference
 
+	food := []string{"onion", "carrot", "celery"}
+	sortStrings(food, nil)
+	fmt.Println(food)
+	sortStringsByLen(food, nil)
+	fmt.Println(food)
 }
