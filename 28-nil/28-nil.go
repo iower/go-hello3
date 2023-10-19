@@ -77,4 +77,16 @@ func main() {
 	fmt.Println(food)
 	sortStringsByLen(food, nil)
 	fmt.Println(food)
+
+	// slices are nil by default
+	var soup []string
+	fmt.Println(soup == nil)
+
+	for _, i := range soup {
+		fmt.Println(i)
+	}
+
+	fmt.Println(len(soup)) // 0
+	soup = append(soup, "a", "b", "c")
+	fmt.Println(soup)
 }
