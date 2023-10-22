@@ -38,6 +38,11 @@ func sortStringsByLen(s []string, less func(i, j int) bool) {
 	sort.Slice(s, less)
 }
 
+func mirepoix(ingredients []string) []string {
+	fmt.Println(len(ingredients), cap(ingredients))
+	return append(ingredients, "a", "b", "c")
+}
+
 func main() {
 	var i int
 	fmt.Println(i)
@@ -89,4 +94,8 @@ func main() {
 	fmt.Println(len(soup)) // 0
 	soup = append(soup, "a", "b", "c")
 	fmt.Println(soup)
+
+	soup2 := mirepoix(nil)
+	fmt.Println(soup2)
+
 }
