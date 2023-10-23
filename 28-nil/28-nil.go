@@ -98,4 +98,30 @@ func main() {
 	soup2 := mirepoix(nil)
 	fmt.Println(soup2)
 
+	// maps are nil by default
+	var soup3 map[string]int
+	fmt.Println(soup3 == nil)
+
+	val, ok := soup3["onion"]
+	fmt.Println(val, ok)
+
+	for ingredient, measurement := range soup3 {
+		fmt.Println(ingredient, measurement)
+	}
+
+	soup3 = map[string]int{"a": 1, "b": 2}
+	fmt.Println(soup3)
+	soup3 = nil
+	fmt.Println(soup3, soup3 == nil)
+	// soup3["onion"] = 1 // panic: assignment to entry in nil map
+
+	// intrefaces are nil by default
+	var v interface{}
+	fmt.Printf("%T %v %v\n", v, v, v == nil)
+	fmt.Printf("%#v\n", v)
+
+	var j *int
+	v = j
+	fmt.Printf("%T %v %v\n", v, v, v == nil)
+	fmt.Printf("%#v\n", v)
 }
