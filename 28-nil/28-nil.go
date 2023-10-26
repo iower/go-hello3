@@ -43,6 +43,22 @@ func mirepoix(ingredients []string) []string {
 	return append(ingredients, "a", "b", "c")
 }
 
+type number struct {
+	value int
+	valid bool
+}
+
+func newNumber(v int) number {
+	return number{value: v, valid: true}
+}
+
+func (n number) String() string {
+	if !n.valid {
+		return "not set"
+	}
+	return fmt.Sprintf("%d", n.value)
+}
+
 func main() {
 	var i int
 	fmt.Println(i)
@@ -124,4 +140,12 @@ func main() {
 	v = j
 	fmt.Printf("%T %v %v\n", v, v, v == nil)
 	fmt.Printf("%#v\n", v)
+
+	//
+	n := newNumber(42)
+	fmt.Println(n)
+
+	e := number{}
+	fmt.Printf("%T \n", e)
+	fmt.Println(e)
 }
