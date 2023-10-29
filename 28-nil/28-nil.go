@@ -59,6 +59,20 @@ func (n number) String() string {
 	return fmt.Sprintf("%d", n.value)
 }
 
+type item string
+type character struct {
+	leftHand *item
+}
+
+func (c *character) pickup(i *item) {
+	c.leftHand = i
+}
+
+func (c *character) give(to *character) {
+	to.leftHand = c.leftHand
+	c.leftHand = nil
+}
+
 func main() {
 	var i int
 	fmt.Println(i)
@@ -148,4 +162,15 @@ func main() {
 	e := number{}
 	fmt.Printf("%T \n", e)
 	fmt.Println(e)
+
+	var c1 character
+	fmt.Println(c1)
+	var sword item = "sword"
+	c1.pickup(&sword)
+	fmt.Println(c1)
+
+	var c2 character
+	fmt.Println(c2)
+	c1.give(&c2)
+	fmt.Println(c1, c2)
 }
