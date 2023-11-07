@@ -23,6 +23,22 @@ func out(name string) error {
 	return err
 }
 
+func outImproved(name string) error {
+	f, err := os.Create(name)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	_, err = fmt.Fprintln(f, "Out string 1")
+	if err != nil {
+		return err
+	}
+
+	_, err = fmt.Fprintln(f, "Out string 2")
+	return err
+}
+
 func main() {
 	files, err := ioutil.ReadDir(".")
 	if err != nil {
