@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -69,6 +70,25 @@ func writeStringsToFile(name string) error {
 	return err
 }
 
+const rows, cols = 9, 9
+
+type Grid [rows][cols]int8
+
+func (g *Grid) Set(row, col int, digit int8) error {
+	if !inBounds(row, col) {
+		return errors.New("Out of bounds")
+	}
+	g[row][col] = digit
+	return nil
+}
+
+func inBounds(row, col int) bool {
+	if row < 0 || row >= rows || col < 0 || col >= cols {
+		return false
+	}
+	return true
+}
+
 func main() {
 	files, err := ioutil.ReadDir(".")
 	if err != nil {
@@ -90,4 +110,10 @@ func main() {
 	}
 
 	writeStringsToFile("out2.txt")
+
+	var g Grid
+	gridErr := g.Set(10, 0, 5)
+	if gridErr != nil {
+		fmt.Printf("Error: %v\n", gridErr)
+	}
 }
