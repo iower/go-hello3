@@ -74,9 +74,18 @@ const rows, cols = 9, 9
 
 type Grid [rows][cols]int8
 
+var (
+	ErrBounds = errors.New("out of bounds")
+	ErrDigit  = errors.New("invalid digit")
+)
+
 func (g *Grid) Set(row, col int, digit int8) error {
 	if !inBounds(row, col) {
-		return errors.New("Out of bounds")
+		return ErrBounds
+	}
+	digitErr := validDigit(digit)
+	if digitErr != nil {
+		return digitErr
 	}
 	g[row][col] = digit
 	return nil
@@ -87,6 +96,19 @@ func inBounds(row, col int) bool {
 		return false
 	}
 	return true
+}
+
+func validDigit(digit int8) error {
+	if digit < 1 || digit > 9 {
+		return errors.New("Wrong digit")
+	}
+	return nil
+}
+
+// implement error
+
+type error2 interface {
+	Error() string
 }
 
 func main() {
@@ -114,6 +136,11 @@ func main() {
 	var g Grid
 	gridErr := g.Set(10, 0, 5)
 	if gridErr != nil {
-		fmt.Printf("Error: %v\n", gridErr)
+		switch gridErr {
+		case ErrBounds, ErrDigit:
+			fmt.Printf("Known error: %v\n", gridErr)
+		default:
+			fmt.Println(gridErr)
+		}
 	}
 }
