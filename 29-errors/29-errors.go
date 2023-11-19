@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func out(name string) error {
@@ -83,7 +84,10 @@ func (g *Grid) Set(row, col int, digit int8) error {
 	if !inBounds(row, col) {
 		return ErrBounds
 	}
-	digitErr := validDigit(digit)
+	var digitErr error
+	if !validDigit(digit) {
+		return errors.New("Wrong digit")
+	}
 	if digitErr != nil {
 		return digitErr
 	}
@@ -98,17 +102,40 @@ func inBounds(row, col int) bool {
 	return true
 }
 
-func validDigit(digit int8) error {
-	if digit < 1 || digit > 9 {
-		return errors.New("Wrong digit")
-	}
-	return nil
+func validDigit(digit int8) bool {
+	return digit >= 1 && digit <= 9
 }
 
 // implement error
 
 type error2 interface {
 	Error() string
+}
+
+// few errors
+type SudokuError []error
+
+func (se SudokuError) Error() string {
+	var s []string
+	for _, err := range se {
+		s = append(s, err.Error())
+	}
+	return strings.Join(s, ", ")
+}
+
+func (g *Grid) SetImproved(row, col int, digit int8) error {
+	var errs SudokuError
+	if !inBounds(row, col) {
+		errs = append(errs, ErrBounds)
+	}
+	if !validDigit(digit) {
+		errs = append(errs, ErrDigit)
+	}
+	if len(errs) > 0 {
+		return errs
+	}
+	g[row][col] = digit
+	return nil
 }
 
 func main() {
@@ -141,6 +168,17 @@ func main() {
 			fmt.Printf("Known error: %v\n", gridErr)
 		default:
 			fmt.Println(gridErr)
+		}
+	}
+
+	// type assertion
+	err3 := g.SetImproved(10, 0, 15)
+	if err3 != nil {
+		if errs, ok := err3.(SudokuError); ok {
+			fmt.Printf("%d errors(s) occurred:\n", len(errs))
+			for _, e := range errs {
+				fmt.Printf("- %v\n", e)
+			}
 		}
 	}
 }
