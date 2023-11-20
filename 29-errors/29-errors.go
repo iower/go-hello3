@@ -181,4 +181,21 @@ func main() {
 			}
 		}
 	}
+
+	// panic("panic test")
+	// panicTest := []int{1, 2, 3}
+	// panic(panicTest)
+	// panic runs defer
+
+	// var zero int
+	// _ = 42 / zero // panic
+
+	defer func() {
+		if e := recover(); e != nil {
+			fmt.Println("Recovered err", e)
+		}
+	}()
+
+	panic("Test panic")
+
 }
