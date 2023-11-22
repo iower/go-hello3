@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -196,6 +197,21 @@ func main() {
 		}
 	}()
 
-	panic("Test panic")
+	if false {
+		panic("Test panic")
+	}
 
+	wrongUrl := "https://a b.com/"
+	_, err = url.Parse(wrongUrl)
+	if err != nil {
+		fmt.Println("Parse err:", err)
+		fmt.Printf("Parse err: %#v \n", err)
+		// for key, value := range &err {
+		// }
+		if e, ok := err.(*url.Error); ok {
+			fmt.Println("e.Op", e.Op)
+			fmt.Println("e.URL", e.URL)
+			fmt.Println("e.Err", e.Err)
+		}
+	}
 }
