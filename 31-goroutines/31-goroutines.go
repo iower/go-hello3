@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -14,6 +15,35 @@ func sleepyGopherCh(i int, c chan int) {
 	time.Sleep(1 * time.Second)
 	fmt.Println("...snore", i, "...")
 	c <- i
+}
+
+func sourceChan(downstream chan string) {
+	for _, v := range []string{"str1", "str2", "str3"} {
+		downstream <- v
+	}
+	downstream <- ""
+}
+
+func filterChan(upstream, downstream chan string) {
+	for {
+		item := <-upstream
+		if !strings.Contains(item, "2") {
+			downstream <- item
+		}
+		if item == "" {
+			return
+		}
+	}
+}
+
+func printChan(upstream chan string) {
+	for {
+		item := <-upstream
+		if item == "" {
+			return
+		}
+		fmt.Println(item)
+	}
 }
 
 func main() {
@@ -60,4 +90,12 @@ func main() {
 
 	// empty select = wait
 	// select {}
+
+	// pipeline
+
+	c0 := make(chan string)
+	c1 := make(chan string)
+	go sourceChan(c0)
+	go filterChan(c0, c1)
+	printChan(c1)
 }
