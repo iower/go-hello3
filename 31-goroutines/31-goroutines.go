@@ -24,6 +24,13 @@ func sourceChan(downstream chan string) {
 	downstream <- ""
 }
 
+func sourceChan2(downstream chan string) {
+	for _, v := range []string{"str1", "str2", "str3"} {
+		downstream <- v
+	}
+	close(downstream)
+}
+
 func filterChan(upstream, downstream chan string) {
 	for {
 		item := <-upstream
@@ -36,6 +43,28 @@ func filterChan(upstream, downstream chan string) {
 	}
 }
 
+func filterChan2(upstream, downstream chan string) {
+	for {
+		item, open := <-upstream
+		if !open {
+			close(downstream)
+			return
+		}
+		if !strings.Contains(item, "2") {
+			downstream <- item
+		}
+	}
+}
+
+func filterChan3(upstream, downstream chan string) {
+	for item := range upstream {
+		if !strings.Contains(item, "2") {
+			downstream <- item
+		}
+	}
+	close(downstream)
+}
+
 func printChan(upstream chan string) {
 	for {
 		item := <-upstream
@@ -43,6 +72,12 @@ func printChan(upstream chan string) {
 			return
 		}
 		fmt.Println(item)
+	}
+}
+
+func pringChan2(upstream chan string) {
+	for v := range upstream {
+		fmt.Println(v)
 	}
 }
 
@@ -98,4 +133,6 @@ func main() {
 	go sourceChan(c0)
 	go filterChan(c0, c1)
 	printChan(c1)
+
+	// close channels
 }
