@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
 	"time"
 )
@@ -135,4 +136,37 @@ func main() {
 	printChan(c1)
 
 	// close channels
+
+	chan1 := make(chan string)
+	chan2 := make(chan string)
+	go genChan(chan1)
+	go memChan(chan1, chan2)
+	printChan(chan2)
+}
+
+func genChan(downstream chan string) {
+	for i := 0; i < 10; i++ {
+		downstream <- "val-" + fmt.Sprintf("%v", rand.Intn(3))
+	}
+	close(downstream)
+}
+
+func memChan(upstream, downstream chan string) {
+	var prev string
+	for val := range upstream {
+		if val != prev {
+			prev = val
+			downstream <- val
+		}
+	}
+	close(downstream)
+}
+
+func words(upstream, downstream chan string) {
+	for str := range upstream {
+		for _, word := range strings.Fields(str) {
+			downstream <- word
+		}
+	}
+	close(downstream)
 }
