@@ -3,13 +3,21 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
 )
 
 type User struct {
 	Id         int
 	Name       string
 	Occupation string
+}
+
+type User2 struct {
+	name       string
+	occupation string
+	born       string
 }
 
 func main() {
@@ -55,4 +63,23 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(string(data))
+
+	file, err := os.Open("data.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	data2, err2 := ioutil.ReadAll(file)
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+	fmt.Println(string(data2))
+
+	var result []User2
+	jsonErr := json.Unmarshal(data2, &result)
+	if jsonErr != nil {
+		log.Fatal(jsonErr)
+	}
+	fmt.Println(result)
 }
