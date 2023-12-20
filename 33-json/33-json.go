@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
+	"time"
 )
 
 type User struct {
@@ -18,6 +20,17 @@ type User2 struct {
 	name       string
 	occupation string
 	born       string
+}
+
+type Astronaut struct {
+	Name  string
+	Craft string
+}
+
+type people struct {
+	Number  int
+	People  []Astronaut
+	Message string
 }
 
 func main() {
@@ -82,4 +95,29 @@ func main() {
 		log.Fatal(jsonErr)
 	}
 	fmt.Println(result)
+
+	//
+
+	url := "http://api.open-notify.org/astros.json"
+	var client = http.Client{
+		Timeout: time.Second * 10,
+	}
+	res, err := client.Get(url)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	fmt.Println("body: ", string(body))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	astros := people{}
+	jsonErr2 := json.Unmarshal(body, &astros)
+	if jsonErr2 != nil {
+		log.Fatal(jsonErr2)
+	}
+	fmt.Println("astros:", astros)
 }
