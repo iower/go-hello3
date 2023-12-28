@@ -69,8 +69,12 @@ func main() {
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/snippet", showSnippet)
 	mux.HandleFunc("/snippet/create", createSnippet)
+
 	mux.HandleFunc("/testt", test)
 	mux.HandleFunc("/json", testJson)
+
+	fileServer := http.FileServer(http.Dir("./ui/static"))
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	log.Println("Run server, localhost:4000 ")
 	err := http.ListenAndServe(":4000", mux)
