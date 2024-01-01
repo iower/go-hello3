@@ -63,6 +63,10 @@ func testJson(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"name":"Alex"}`))
 }
 
+func fileHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./ui/static/filesample.zip")
+}
+
 func main() {
 	mux := http.NewServeMux()
 
@@ -72,6 +76,8 @@ func main() {
 
 	mux.HandleFunc("/testt", test)
 	mux.HandleFunc("/json", testJson)
+
+	mux.HandleFunc("/ui/static/filesample.zip", fileHandler)
 
 	fileServer := http.FileServer(http.Dir("./ui/static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
