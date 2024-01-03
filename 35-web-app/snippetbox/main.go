@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"html/template"
 	"log"
@@ -69,6 +70,9 @@ func fileHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	addr := flag.String("addr", ":4000", "HTTP addr")
+	flag.Parse()
+
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", home)
@@ -84,8 +88,8 @@ func main() {
 	mux.Handle("/static", http.NotFoundHandler())
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
-	log.Println("Run server, localhost:4000 ")
-	err := http.ListenAndServe(":4000", mux)
+	log.Printf("Run server, %s\n", *addr)
+	err := http.ListenAndServe(*addr, mux)
 	log.Fatal(err)
 }
 
