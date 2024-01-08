@@ -50,15 +50,15 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("create snippet"))
 }
 
-func test(w http.ResponseWriter, r *http.Request) {
+func (app *application) test(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("test"))
 }
 
-func testJson(w http.ResponseWriter, r *http.Request) {
+func (app *application) testJson(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(`{"name":"Alex"}`))
 }
 
-func fileHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) fileHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./ui/static/filesample.zip")
 }
