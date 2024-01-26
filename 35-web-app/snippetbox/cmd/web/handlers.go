@@ -52,6 +52,18 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%v", s)
 }
 
+func (app *application) showLatest(w http.ResponseWriter, r *http.Request) {
+	s, err := app.snippets.Latest()
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	for _, snippet := range s {
+		fmt.Fprintf(w, "%v\n", snippet)
+	}
+}
+
 func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.Header().Set("Allow", http.MethodPost)
