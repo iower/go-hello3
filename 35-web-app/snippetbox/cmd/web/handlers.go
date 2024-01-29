@@ -49,6 +49,8 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	data := &templateData{Snippet: s}
+
 	// fmt.Fprintf(w, "%v", s)
 	files := []string{
 		"./ui/html/show.page.tmpl",
@@ -62,7 +64,7 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = ts.Execute(w, s)
+	err = ts.Execute(w, data)
 	if err != nil {
 		app.serverError(w, err)
 	}
